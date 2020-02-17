@@ -4,21 +4,24 @@
 //Term Project
 //Description: This program helps organize players into teams using statistics.
 //Version Version 2.0
-//Last Changed: 02/14/2020
+//Last Changed: 02/17/2020
 
 #include <iostream>
 #include <string>
 using namespace std;
 
+double calcSkill (int PlayerYearsPlayed, double GoalsPerYear);
+
 const int PlayersPerTeam = 10, m = 10;//m is the maximum amount of players the league can hold
 string PlayerfirstName[m], PlayerlastName[m], PlayerPhone[m];
-int	PlayerAge[m], PlayerYearsPlayed[m], j, TotalPlayers = k;
+int	PlayerAge[m], PlayerYearsPlayed[m], j, k;
 double PlayerGoals[m], GoalsPerYear[m];
 
 int main()
 {
 	cout << "How many players do you have to enter?\n";//User can imput number of players
 	cin >> k;
+
 	int i = 0;
 	while (i < k)//Input while Loop
 	{
@@ -53,4 +56,9 @@ int main()
 	}
 
 	return 0;
+}
+
+double calcSkill(int PlayerYearsPlayed, double GoalsPerYear)
+{
+	return(GoalsPerYear + PlayerYearsPlayed);
 }
