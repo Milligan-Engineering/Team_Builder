@@ -12,7 +12,7 @@ using namespace std;
 
 const int PlayersPerTeam = 10, m = 10;//m is the maximum amount of players the league can hold
 string PlayerfirstName[m], PlayerlastName[m], PlayerPhone[m];
-int	PlayerAge[m], PlayerYearsPlayed[m], j, TotalPlayers = k;
+int	PlayerAge[m], PlayerYearsPlayed[m], j, TotalPlayers, k;
 double PlayerGoals[m], GoalsPerYear[m];
 
 int main()
