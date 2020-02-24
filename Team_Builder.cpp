@@ -4,27 +4,31 @@
 //Term Project
 //Description: This program helps organize players into teams using statistics.
 //Version Version 2.0
-//Last Changed: 02/21/2020
+//Last Changed: 02/24/2020
 
 #include <iostream>
 #include <string>
 using namespace std;
 
-double calcSkill (int PlayerYearsPlayed, double GoalsPerYear);
-
 const int PlayersPerTeam = 10, m = 10;//m is the maximum amount of players the league can hold
 string PlayerfirstName[m], PlayerlastName[m], PlayerPhone[m];
-int	PlayerAge[m], PlayerYearsPlayed[m], j, k, error;// k = The number of players the user has
+int	PlayerAge[m], PlayerYearsPlayed[m], i;
 double PlayerGoals[m], GoalsPerYear[m];
+
+double calcSkill (int PlayerYearsPlayed[], double GoalsPerYear[]);
 
 int main()
 {
-	do// Do While to validate imput
+	int error, k;// k = The number of players the user has
+	do
 	{
+		do// Do While to validate imput
+		{
 		error = 0;
-		cout << "How many players do you have to enter?\n";//User can imput number of players
+		cout << "How many players do you have to enter?\nMake sure your amount is below "
+			<< m << " for the value to be Valid!\n";//User can imput number of players
 		cin >> k;
-		
+
 		if (cin.fail())
 		{
 			cout << "Please enter a valid integer\n" << endl;
@@ -32,11 +36,12 @@ int main()
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		}
+		} 
+		while (error == 1); 
 	} 
-	while (error == 1); 
-	
+	while (k>m);
 
-	int i = 0;
+	i = 0;
 	while (i < k)// This is the while Loop where the user will input all the user information
 	{
 			cout << "\nPlease Enter Player Information\n";
@@ -109,14 +114,14 @@ int main()
 	{
 		cout << "PLAYER NAME: " << PlayerfirstName[n] << " " << PlayerlastName[n] <<
 			"    AGE: " << PlayerAge[n] << "     PHONE: " << PlayerPhone[n] <<"    YEARS PLAYED: " << PlayerYearsPlayed[n] <<
-			"    GOALS PER YEAR: " << GoalsPerYear[n] << "\n" << endl;
+			"    GOALS PER YEAR: " << GoalsPerYear[n] << "     Skill level: " << calcSkill << "\n";
 		n++;
 	}
 
 	return 0;
 }
 
-double calcSkill(int PlayerYearsPlayed, double GoalsPerYear)
+double calcSkill(int PlayerYearsPlayed[], double GoalsPerYear[])
 {
-	return(GoalsPerYear + sqrt(PlayerYearsPlayed));
+	return(sqrt(GoalsPerYear[i]) + PlayerYearsPlayed[i]);
 }
