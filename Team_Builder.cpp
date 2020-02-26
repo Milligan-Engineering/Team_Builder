@@ -3,7 +3,7 @@
 //Email Address: tsoakes@my.milligan.edu
 //Term Project
 //Description: This program helps organize players into teams using statistics.
-//Version Version 2.0
+//Version Version 2.1
 //Last Changed: 02/24/2020
 
 #include <iostream>
@@ -15,12 +15,16 @@ string PlayerfirstName[m], PlayerlastName[m], PlayerPhone[m];
 int	PlayerAge[m], PlayerYearsPlayed[m], i;
 double PlayerGoals[m], GoalsPerYear[m];
 
-double calcSkill (int PlayerYearsPlayed[], double GoalsPerYear[]);
+double calcSkill (int PlayerYearVal, double GPYVal);
+//Precondition: User has Entered number of years played and goals made both as intergers,
+//the program will have performed a calculation converting yearsplayed and goalsscored to a double.
+//Postcondition: It will output a double to be used as the skill player metric to be ranked with
+//as a double
 
 int main()
 {
 	int error, k;// k = The number of players the user has
-	do
+	do// Do while to make sure that the desired number of players is not bigger than the array size
 	{
 		do// Do While to validate imput
 		{
@@ -114,14 +118,14 @@ int main()
 	{
 		cout << "PLAYER NAME: " << PlayerfirstName[n] << " " << PlayerlastName[n] <<
 			"    AGE: " << PlayerAge[n] << "     PHONE: " << PlayerPhone[n] <<"    YEARS PLAYED: " << PlayerYearsPlayed[n] <<
-			"    GOALS PER YEAR: " << GoalsPerYear[n] << "     Skill level: " << calcSkill << "\n";
+			"    GOALS PER YEAR: " << GoalsPerYear[n] << "     Skill level: " << calcSkill(PlayerYearsPlayed[n], GoalsPerYear[n]) << "\n";
 		n++;
 	}
 
 	return 0;
 }
 
-double calcSkill(int PlayerYearsPlayed[], double GoalsPerYear[])
+double calcSkill(int PlayerYearVal, double GPYVal)
 {
-	return(sqrt(GoalsPerYear[i]) + PlayerYearsPlayed[i]);
+	return(sqrt(GPYVal) + PlayerYearVal);
 }
