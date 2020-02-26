@@ -16,9 +16,9 @@ int	PlayerAge[m], PlayerYearsPlayed[m], i;
 double PlayerGoals[m], GoalsPerYear[m];
 
 double calcSkill (int PlayerYearVal, double GPYVal);
-//Precondition: User has Entered number of years played and goals made both as intergers,
-//the program will have performed a calculation converting yearsplayed and goalsscored to a double.
-//Postcondition: It will output a double to be used as the skill player metric to be ranked with
+//Precondition: User has Entered number of years played and goals made both as intergers.
+//Postcondition: The program will have performed a calculation converting yearsplayed and goalsscored to a double.
+// It will output a double to be used as the skill player metric to be ranked with
 //as a double
 
 int main()
