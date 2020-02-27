@@ -3,8 +3,8 @@
 //Email Address: tsoakes@my.milligan.edu
 //Term Project
 //Description: This program helps organize players into teams using statistics.
-//Version Version 2.1
-//Last Changed: 02/24/2020
+//Version Version 2.07
+//Last Changed: 02/26/2020
 
 #include <iostream>
 #include <string>
