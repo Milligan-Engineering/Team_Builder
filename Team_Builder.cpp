@@ -15,11 +15,17 @@ string PlayerfirstName[m], PlayerlastName[m], PlayerPhone[m];
 int	PlayerAge[m], PlayerYearsPlayed[m], i;
 double PlayerGoals[m], GoalsPerYear[m];
 
+void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double goals[],
+	double gpy[], int arraysize);
+//Precondition: User has Entered input for strings First Name, Last Name, Phone Number. Intergers 
+//of Age, Years Played. The double of years scored.
+//Postcondition: It will list all the input in single lines readable for the user.
+
 double calcSkill (int PlayerYearVal, double GPYVal);
 //Precondition: User has Entered number of years played and goals made both as intergers.
-//Postcondition: The program will have performed a calculation converting yearsplayed and goalsscored to a double.
-// It will output a double to be used as the skill player metric to be ranked with
-//as a double
+//Postcondition: The program will have performed a calculation converting yearsplayed and 
+//goalsscored to a double. It will output a double to be used as the skill player metric 
+//to be ranked with as a double.
 
 int main()
 {
@@ -113,14 +119,8 @@ int main()
 			}
 			i++;
 	}
-	int n = 0;
-	while (n < k)//output while loop, This is to display the information after it is all entered
-	{
-		cout << "PLAYER NAME: " << PlayerfirstName[n] << " " << PlayerlastName[n] <<
-			"    AGE: " << PlayerAge[n] << "     PHONE: " << PlayerPhone[n] <<"    YEARS PLAYED: " << PlayerYearsPlayed[n] <<
-			"    GOALS PER YEAR: " << GoalsPerYear[n] << "     Skill level: " << calcSkill(PlayerYearsPlayed[n], GoalsPerYear[n]) << "\n";
-		n++;
-	}
+	listPrint(PlayerfirstName, PlayerlastName, PlayerPhone, PlayerAge, PlayerYearsPlayed,
+		PlayerGoals, GoalsPerYear, k);
 
 	return 0;
 }
@@ -128,4 +128,18 @@ int main()
 double calcSkill(int PlayerYearVal, double GPYVal)
 {
 	return(sqrt(GPYVal) + PlayerYearVal);
+}
+
+void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double goals[], double gpy[], int arraysize)
+{
+
+	int n = 0;
+	while (n < arraysize)
+	{
+		cout << "PLAYER NAME: " << fnames[n] << " " << lnames[n] <<
+			"    AGE: " << age[n] << "     PHONE: " << phone[n] << "    YEARS PLAYED: " << years[n] <<
+			"    GOALS PER YEAR: " << gpy[n] << "     Skill level: " << calcSkill(years[n], gpy[n]) << "\n";
+		n++;
+	}
+	return;
 }
