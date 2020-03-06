@@ -3,20 +3,19 @@
 //Email Address: tsoakes@my.milligan.edu
 //Term Project
 //Description: This program helps organize players into teams using statistics.
-//Version Version 2.07
-//Last Changed: 03/2/2020
+//Version Version 2.08
+//Last Changed: 03/6/2020
 
 #include <iostream>
 #include <string>
+#include <fstream>
+#include <iomanip>
+
 using namespace std;
 
-const int PlayersPerTeam = 10, m = 10;//m is the maximum amount of players the league can hold
-string PlayerfirstName[m], PlayerlastName[m], PlayerPhone[m];
-int	PlayerAge[m], PlayerYearsPlayed[m], i;
-double PlayerGoals[m], GoalsPerYear[m];
+const int PlayersPerTeam = 10, m = 1;//m is the maximum amount of players the league can hold
 
-void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double goals[],
-	double gpy[], int arraysize);
+void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double gpy[], double calcskill[], int arraysize);
 //Precondition: User has Entered input for strings First Name, Last Name, Phone Number. Intergers 
 //of Age, Years Played. The double of years scored.
 //Postcondition: It will list all the input in single lines readable for the user.
@@ -29,99 +28,166 @@ double calcSkill (int PlayerYearVal, double GPYVal);
 
 int main()
 {
-	int error, k;// k = The number of players the user has
-	do// Do while to make sure that the desired number of players is not bigger than the array size
+	string PlayerfirstName[m], PlayerlastName[m], PlayerPhone[m];
+	int	PlayerAge[m], PlayerYearsPlayed[m], i, n;
+	double PlayerGoals[m], GoalsPerYear[m];
+	char Menu;
+
+	cout << "Welcome to the Team Builder Program.\n";
+	do
 	{
-		do// Do While to validate imput
+		cout << "Will you be entering Player Information," 
+			" Reviewing Information or Editing Information?\n"
+			"Enter N for Enter, R for Reviewing,"
+			" E for Editing, or D if you are done!\n";
+		cin >> Menu;
+	
+		if (Menu == 'N' || Menu == 'n')
 		{
-		error = 0;
-		cout << "How many players do you have to enter?\nMake sure your amount is below "
-			<< m << " for the value to be Valid!\n";//User can imput number of players
-		cin >> k;
-
-		if (cin.fail())
-		{
-			cout << "Please enter a valid integer\n" << endl;
-			error = 1;
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		}
-		} 
-		while (error == 1); 
-	} 
-	while (k>m);
-
-	i = 0;
-	while (i < k)// This is the while Loop where the user will input all the user information
-	{
-			cout << "\nPlease Enter Player Information\n";
-			cout << "\nEnter Player First Name: ";
-			cin >> PlayerfirstName[i];
-			cout << "Enter Player Last Name: ";
-			cin >> PlayerlastName[i];
-			cout << "Please Enter Player's Phone Number: ";
-			cin >> PlayerPhone[i];
-			
-			do
+			ofstream out_stream;
+			out_stream.open("PlayerInfo.txt");
+			if (out_stream.fail())
 			{
-				error = 0;
-				cout << "Enter Player Age: ";
-				cin >> PlayerAge[i];
-				
-				if (cin.fail())
-				{
-					cout << "Please enter a valid integer\n" << endl;
-					error = 1;
-					cin.clear();
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				}
-			} 
-			while (error == 1); 
-			
-			
-			do
-			{
-				error = 0;
-				cout << "Enter Number Of Years Played: ";
-				cin >> PlayerYearsPlayed[i];
-				
-				if (cin.fail())
-				{
-					cout << "Please enter a valid integer\n" << endl;
-					error = 1;
-					cin.clear();
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				}
-			} 
-			while (error == 1);
+				cout << "Output file opening failed.\n";
+				exit(1);
+			}
 
-			if (PlayerYearsPlayed[i] > 0)//If loop for if first time player it won't ask for Goals scored
+			int error, k;// k = The number of players the user has
+			do// Do while to make sure that the desired number of players is not bigger than the array size
 			{
-				
-				do
+				do// Do While to validate imput
 				{
 					error = 0;
-					cout << "How Many Goals has the Player Previously Scored: ";
-					cin >> PlayerGoals[i];
-					
+					cout << "How many players do you have to enter?\nMake sure your amount is below "
+						<< m << " for the value to be Valid!\n";//User can imput number of players
+					cin >> k;
+
 					if (cin.fail())
 					{
-						cout << "Please enter a valid number" << endl;
+						cout << "Please enter a valid integer\n" << endl;
 						error = 1;
 						cin.clear();
 						cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					}
+					
 				} 
 				while (error == 1);
+			} 
+			while (k > m);
+			n = k;
+			i = 0;
+			while (i < n)// This is the while Loop where the user will input all the user information
+			{
+				cout << "\nPlease Enter Player Information\n";
+				cout << "\nEnter Player First Name: ";
+				cin >> PlayerfirstName[i];
+				cout << "Enter Player Last Name: ";
+				cin >> PlayerlastName[i];
+				cout << "Please Enter Player's Phone Number: ";
+				cin >> PlayerPhone[i];
 
-				cout << "\n";
-				GoalsPerYear[i] = PlayerGoals[i] / PlayerYearsPlayed[i];
+				do
+				{
+					error = 0;
+					cout << "Enter Player Age: ";
+					cin >> PlayerAge[i];
+
+					if (cin.fail())
+					{
+						cout << "Please enter a valid integer\n" << endl;
+						error = 1;
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					}
+				} while (error == 1);
+
+
+				do
+				{
+					error = 0;
+					cout << "Enter Number Of Years Played: ";
+					cin >> PlayerYearsPlayed[i];
+
+					if (cin.fail())
+					{
+						cout << "Please enter a valid integer\n" << endl;
+						error = 1;
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					}
+				} while (error == 1);
+
+				if (PlayerYearsPlayed[i] > 0)//If loop for if first time player it won't ask for Goals scored
+				{
+
+					do
+					{
+						error = 0;
+						cout << "How Many Goals has the Player Previously Scored: ";
+						cin >> PlayerGoals[i];
+
+						if (cin.fail())
+						{
+							cout << "Please enter a valid number" << endl;
+							error = 1;
+							cin.clear();
+							cin.ignore(numeric_limits<streamsize>::max(), '\n');
+						}
+					} while (error == 1);
+
+					cout << "\n";
+					GoalsPerYear[i] = PlayerGoals[i] / PlayerYearsPlayed[i];
+				}
+				i++;
 			}
-			i++;
-	}
-	listPrint(PlayerfirstName, PlayerlastName, PlayerPhone, PlayerAge, PlayerYearsPlayed,
-		PlayerGoals, GoalsPerYear, k);
+			i = 0;
+			if (i < n)
+			{
 
+				out_stream << " " << PlayerfirstName[i] << " " << PlayerlastName[i] <<
+					" " << PlayerAge[i] << " " << PlayerPhone[i] <<
+					" " << PlayerYearsPlayed[i] << " " << GoalsPerYear[i] <<
+					" " << calcSkill(PlayerYearsPlayed[i], PlayerGoals[i]) << "\n";
+				i++;
+			}
+
+			out_stream.close();
+
+			continue;
+		}
+		
+		if(Menu == 'R' || Menu == 'r')
+		{
+			ifstream in_stream;
+			in_stream.open("PlayerInfo.txt");
+			if (in_stream.fail())
+			{
+				cout << "Input file opening failed.\n";
+				exit(1);
+			}
+			string firstName[m], lastName[m], Phone[m], PlayerNumber[m];
+			int	Age[m], YearsPlayed[m];
+			double Skill[m], GoalsPYear[m];
+			if (in_stream.is_open())
+			{
+				for (i = 0; i < m; ++i)
+				{
+					in_stream >> PlayerNumber[i] >> firstName[i] >> lastName[i] >> Age[i]
+						>> Phone[i] >> YearsPlayed[i] >> GoalsPYear[i]
+						>> Skill[i];
+				}
+			}
+			listPrint(firstName, lastName, Phone, Age, YearsPlayed, GoalsPYear, Skill, i);
+			in_stream.close();
+			continue;
+		}
+		else
+		{
+			cout << "Enter a N, R, or D please! \n";
+				continue;
+		}
+	} 
+	while (Menu != 'D' || Menu != 'd');
 	return 0;
 }
 
@@ -130,15 +196,17 @@ double calcSkill(int PlayerYearVal, double GPYVal)
 	return(sqrt(GPYVal) + PlayerYearVal);
 }
 
-void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double goals[], double gpy[], int arraysize)
+void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double gpy[], double calcskill[], int arraysize)
 {
 
 	int n = 0;
 	while (n < arraysize)
 	{
-		cout << "PLAYER NAME: " << fnames[n] << " " << lnames[n] <<
-			"    AGE: " << age[n] << "     PHONE: " << phone[n] << "    YEARS PLAYED: " << years[n] <<
-			"    GOALS PER YEAR: " << gpy[n] << "     Skill level: " << calcSkill(years[n], gpy[n]) << "\n";
+		left;
+		cout << "PLAYER NAME: " << setw(10) << fnames[n] << " " << setw(10) << lnames[n] <<
+			" AGE: " << setw(3) << age[n] << " PHONE: " << setw(10) << phone[n] << 
+			" YEARS PLAYED: " << setw(3) << years[n] << " GOALS PER YEAR: " << setw(4) <<
+			gpy[n] << " Skill level: " << setprecision(3) << calcskill[n] << "\n";
 		n++;
 	}
 	return;
