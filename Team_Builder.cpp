@@ -13,7 +13,7 @@
 
 using namespace std;
 
-const int PlayersPerTeam = 10, m = 1;//m is the maximum amount of players the league can hold
+const int PlayersPerTeam = 10, m = 2;//m is the maximum amount of players the league can hold
 
 void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double gpy[], double calcskill[], int arraysize);
 //Precondition: User has Entered input for strings First Name, Last Name, Phone Number. Intergers 
@@ -34,6 +34,7 @@ int main()
 	char Menu;
 
 	cout << "Welcome to the Team Builder Program.\n";
+
 	do
 	{
 		cout << "Will you be entering Player Information," 
@@ -42,7 +43,7 @@ int main()
 			" E for Editing, or D if you are done!\n";
 		cin >> Menu;
 	
-		if (Menu == 'N' || Menu == 'n')
+		if (Menu == 'N' || Menu == 'n')//If loop if the user is entering data
 		{
 			ofstream out_stream;
 			out_stream.open("PlayerInfo.txt");
@@ -141,7 +142,7 @@ int main()
 				i++;
 			}
 			i = 0;
-			if (i < n)
+			if (i < n)// If loop for outputing data to the external file
 			{
 
 				out_stream << " " << PlayerfirstName[i] << " " << PlayerlastName[i] <<
@@ -156,23 +157,26 @@ int main()
 			continue;
 		}
 		
-		if(Menu == 'R' || Menu == 'r')
+		if(Menu == 'R' || Menu == 'r')// If the user is just reviewing data
 		{
 			ifstream in_stream;
 			in_stream.open("PlayerInfo.txt");
+
 			if (in_stream.fail())
 			{
 				cout << "Input file opening failed.\n";
 				exit(1);
 			}
+
 			string firstName[m], lastName[m], Phone[m], PlayerNumber[m];
 			int	Age[m], YearsPlayed[m];
 			double Skill[m], GoalsPYear[m];
+
 			if (in_stream.is_open())
 			{
-				for (i = 0; i < m; ++i)
+				for (i = 0; i < m; ++i)//for  
 				{
-					in_stream >> PlayerNumber[i] >> firstName[i] >> lastName[i] >> Age[i]
+					in_stream >> firstName[i] >> lastName[i] >> Age[i]
 						>> Phone[i] >> YearsPlayed[i] >> GoalsPYear[i]
 						>> Skill[i];
 				}
@@ -181,13 +185,18 @@ int main()
 			in_stream.close();
 			continue;
 		}
-		else
+		if(Menu == 'D' || Menu == 'd')
 		{
-			cout << "Enter a N, R, or D please! \n";
+			Menu = 'D';
+			return 0;
+		}
+		else// Else loop for incase the user does not input a valid answer asked
+		{
+			cout << "\nEnter a N, R, or D please! \n";
 				continue;
 		}
 	} 
-	while (Menu != 'D' || Menu != 'd');
+	while (Menu != 'D' || Menu != 'd');// Once the user is done they will enter D
 	return 0;
 }
 
@@ -196,7 +205,8 @@ double calcSkill(int PlayerYearVal, double GPYVal)
 	return(sqrt(GPYVal) + PlayerYearVal);
 }
 
-void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double gpy[], double calcskill[], int arraysize)
+void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], 
+	double gpy[], double calcskill[], int arraysize)
 {
 
 	int n = 0;
@@ -204,9 +214,9 @@ void listPrint(string fnames[], string lnames[], string phone[], int age[], int 
 	{
 		left;
 		cout << "PLAYER NAME: " << setw(10) << fnames[n] << " " << setw(10) << lnames[n] <<
-			" AGE: " << setw(3) << age[n] << " PHONE: " << setw(10) << phone[n] << 
-			" YEARS PLAYED: " << setw(3) << years[n] << " GOALS PER YEAR: " << setw(4) <<
-			gpy[n] << " Skill level: " << setprecision(3) << calcskill[n] << "\n";
+			" AGE: " << setw(3) << setprecision(2) << age[n] << " PHONE: " << setw(10) << phone[n] <<
+			" YEARS PLAYED: " << setw(3) << years[n] << " GOALS PER YEAR: " << setw(4) << setprecision(3) <<
+			gpy[n] << " Skill level: " << setprecision(3) << calcskill[n] << "\n\n";
 		n++;
 	}
 	return;
