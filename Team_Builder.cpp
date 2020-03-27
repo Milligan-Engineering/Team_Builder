@@ -41,7 +41,7 @@ int main()
 			" Reviewing Information or Editing Information?\n"
 			"Enter N for Enter, R for Reviewing,"
 			" E for Editing, or D if you are done!\n";
-		cin >> Menu;
+		cin.get(Menu);
 	
 		if (Menu == 'N' || Menu == 'n')//If loop if the user is entering data
 		{
