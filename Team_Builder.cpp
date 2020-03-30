@@ -52,7 +52,7 @@ int main()
 				cout << "Output file opening failed.\n";
 				exit(1);
 			}
-
+			//
 			int error, k;// k = The number of players the user has
 			do// Do while to make sure that the desired number of players is not bigger than the array size
 			{
