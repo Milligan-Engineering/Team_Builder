@@ -3,8 +3,8 @@
 //Email Address: tsoakes@my.milligan.edu
 //Term Project
 //Description: This program helps organize players into teams using statistics.
-//Version Version 2.09a
-//Last Changed: 03/26/2020
+//Version Version 2.09b
+//Last Changed: 04/01/2020
 
 #include <iostream>
 #include <string>
@@ -13,7 +13,7 @@
 
 using namespace std;
 
-const int PlayersPerTeam = 10, m = 2;//m is the maximum amount of players the league can hold
+const int PlayersPerTeam = 10, m = 5;//m is the maximum amount of players the league can hold
 
 void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double gpy[], double calcskill[], int arraysize);
 //Precondition: User has Entered input for strings First Name, Last Name, Phone Number. Intergers 
@@ -40,7 +40,7 @@ int main()
 		cout << "Will you be entering Player Information," 
 			" Reviewing Information or Editing Information?\n"
 			"Enter N for Enter, R for Reviewing,"
-			" E for Editing, or D if you are done!\n";
+			" E for Editing (Not working yet), or D if you are done!\n";
 		cin.get(Menu);
 	
 		if (Menu == 'N' || Menu == 'n')//If loop if the user is entering data
