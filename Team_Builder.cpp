@@ -1,10 +1,10 @@
-//File Name: Team Builder
+﻿//File Name: Team Builder
 //Name: Tyler Oakes
 //Email Address: tsoakes@my.milligan.edu
 //Term Project
 //Description: This program helps organize players into teams using statistics.
-//Version Version 2.09b
-//Last Changed: 04/01/2020
+//Version Version 2.10a
+//Last Changed: 04/08/2020
 
 #include <iostream>
 #include <string>
@@ -26,6 +26,12 @@ double calcSkill (int PlayerYearVal, double GPYVal);
 //goalsscored to a double. It will output a double to be used as the skill player metric 
 //to be ranked with as a double.
 
+int search(string a[], int number_used, string term);
+//Precondition: number_used is <= the declared size of a.
+//Also, a[0] through a[number_used − 1] have values.
+//Returns the first index such that a[index] == target,
+//provided there is such an index; otherwise, returns −1. 
+
 int main()
 {
 	string PlayerfirstName[m], PlayerlastName[m], PlayerPhone[m];
@@ -37,12 +43,12 @@ int main()
 
 	do
 	{
-		cout << "Will you be entering Player Information," 
-			" Reviewing Information or Editing Information?\n"
+		cout << "Will you be entering Player Information,"
+			" Reviewing Information, Searching for a Player or Editing Information?\n"
 			"Enter N for Enter, R for Reviewing,"
-			" E for Editing (Not working yet), or D if you are done!\n";
+			" E for Editing (Not working yet), S for searching, or D if you are done!\n";
 		cin.get(Menu);
-	
+
 		if (Menu == 'N' || Menu == 'n')//If loop if the user is entering data
 		{
 			ofstream out_stream;
@@ -70,11 +76,9 @@ int main()
 						cin.clear();
 						cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					}
-					
-				} 
-				while (error == 1);
-			} 
-			while (k > m);
+
+				} while (error == 1);
+			} while (k > m);
 			n = k;
 			i = 0;
 			while (i < n)// This is the while Loop where the user will input all the user information
@@ -156,8 +160,8 @@ int main()
 
 			continue;
 		}
-		
-		if(Menu == 'R' || Menu == 'r')// If the user is just reviewing data
+
+		if (Menu == 'R' || Menu == 'r')// If the user is just reviewing data
 		{
 			ifstream in_stream;
 			in_stream.open("PlayerInfo.txt");
@@ -169,7 +173,39 @@ int main()
 			}
 
 			string firstName[m], lastName[m], Phone[m], PlayerNumber[m];
-			int	Age[m], YearsPlayed[m];
+			int	Age[m], YearsPlayed[m],q;
+			double Skill[m], GoalsPYear[m];
+
+			if (in_stream.is_open())
+			{
+				i = 0;
+				while(!in_stream.eof() && i < m)  
+				{
+					in_stream >> firstName[i] >> lastName[i] >> Age[i]
+						>> Phone[i] >> YearsPlayed[i] >> GoalsPYear[i]
+						>> Skill[i];
+					i++;
+				}
+				q = i - 1;
+			}
+			listPrint(firstName, lastName, Phone, Age, YearsPlayed, GoalsPYear, Skill, q);
+			in_stream.close();
+			continue;
+		}
+		
+		if (Menu == 'S' || Menu == 's')
+		{
+			ifstream in_stream;
+			in_stream.open("PlayerInfo.txt");
+
+			if (in_stream.fail())
+			{
+				cout << "Input file opening failed.\n";
+				exit(1);
+			}
+
+			string firstName[m], lastName[m], Phone[m], PlayerNumber[m], term;
+			int	Age[m], YearsPlayed[m], result;
 			double Skill[m], GoalsPYear[m];
 
 			if (in_stream.is_open())
@@ -181,11 +217,24 @@ int main()
 						>> Skill[i];
 				}
 			}
-			listPrint(firstName, lastName, Phone, Age, YearsPlayed, GoalsPYear, Skill, i);
-			in_stream.close();
+			char ans;
+			do
+			{
+				cout << "Enter a last name to search for: ";
+				cin >> term;
+				result = search(lastName, m, term);
+				if (result == 1)
+					cout << term << " is not on the list.\n";
+				else
+					cout << term << " is stored in array position "
+					<< result << endl
+					<< "(Remember: The first position is 0.)\n";
+				cout << "Search again?(y/n followed by Return): ";
+				cin >> ans;
+			} while ((ans != 'n') && (ans != 'N'));
 			continue;
 		}
-		if(Menu == 'D' || Menu == 'd')
+		if (Menu == 'D' || Menu == 'd')
 		{
 			Menu = 'D';
 			return 0;
@@ -212,7 +261,6 @@ void listPrint(string fnames[], string lnames[], string phone[], int age[], int 
 	int n = 0;
 	while (n < arraysize)
 	{
-		left;
 		cout << "PLAYER NAME: " << setw(10) << fnames[n] << " " << setw(10) << lnames[n] <<
 			" AGE: " << setw(3) << setprecision(2) << age[n] << " PHONE: " << setw(10) << phone[n] <<
 			" YEARS PLAYED: " << setw(3) << years[n] << " GOALS PER YEAR: " << setw(4) << setprecision(3) <<
@@ -220,4 +268,19 @@ void listPrint(string fnames[], string lnames[], string phone[], int age[], int 
 		n++;
 	}
 	return;
+}
+
+int search(string a[], int number_used, string term)
+{
+	int q = 0;
+	bool found = false;
+	while ((!found) && (q < number_used))
+		if (term == a[q])
+			found = true;
+		else
+			q++;
+	if (found)
+		return q;
+	else 
+		return 1;
 }
