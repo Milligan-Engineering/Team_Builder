@@ -13,7 +13,10 @@
 
 using namespace std;
 
-const int PlayersPerTeam = 10, m = 5;//m is the maximum amount of players the league can hold
+const int numberofteams = 2, PlayersPerTeam = 10, m = 5;//m is the maximum amount of players the league can hold
+string fname[numberofteams][PlayersPerTeam], lname[numberofteams][PlayersPerTeam], phone[numberofteams][PlayersPerTeam];
+int age[numberofteams][PlayersPerTeam], years[numberofteams][PlayersPerTeam];
+double GPY[numberofteams][PlayersPerTeam], Skill[numberofteams][PlayersPerTeam];
 
 void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double gpy[], double calcskill[], int arraysize);
 //Precondition: User has Entered input for strings First Name, Last Name, Phone Number. Intergers 
