@@ -3,8 +3,8 @@
 //Email Address: tsoakes@my.milligan.edu
 //Term Project
 //Description: This program helps organize players into teams using statistics.
-//Version Version 2.10a
-//Last Changed: 04/08/2020
+//Version Version 2.10b
+//Last Changed: 04/13/2020
 
 #include <iostream>
 #include <string>
@@ -13,9 +13,9 @@
 
 using namespace std;
 
-const int numberofteams = 2, PlayersPerTeam = 10, m = 5;//m is the maximum amount of players the league can hold
+const int numberofteams = 2, PlayersPerTeam = 10, m = 20;//m is the maximum amount of players the league can hold
 string fname[numberofteams][PlayersPerTeam], lname[numberofteams][PlayersPerTeam], phone[numberofteams][PlayersPerTeam];
-int age[numberofteams][PlayersPerTeam], years[numberofteams][PlayersPerTeam];
+int age[numberofteams][PlayersPerTeam], years[numberofteams][PlayersPerTeam], n;
 double GPY[numberofteams][PlayersPerTeam], Skill[numberofteams][PlayersPerTeam];
 
 void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double gpy[], double calcskill[], int arraysize);
@@ -38,7 +38,7 @@ int search(string a[], int number_used, string term);
 int main()
 {
 	string PlayerfirstName[m], PlayerlastName[m], PlayerPhone[m];
-	int	PlayerAge[m], PlayerYearsPlayed[m], i, n;
+	int	PlayerAge[m], PlayerYearsPlayed[m], i;
 	double PlayerGoals[m], GoalsPerYear[m];
 	char Menu;
 
@@ -149,7 +149,7 @@ int main()
 				i++;
 			}
 			i = 0;
-			if (i < n)// If loop for outputing data to the external file
+			do // while loop for outputing data to the external file
 			{
 
 				out_stream << " " << PlayerfirstName[i] << " " << PlayerlastName[i] <<
@@ -157,10 +157,8 @@ int main()
 					" " << PlayerYearsPlayed[i] << " " << GoalsPerYear[i] <<
 					" " << calcSkill(PlayerYearsPlayed[i], PlayerGoals[i]) << "\n";
 				i++;
-			}
-
-			out_stream.close();
-
+			} while ((i < n));
+			out_stream.close(); 
 			continue;
 		}
 
@@ -225,14 +223,18 @@ int main()
 			{
 				cout << "Enter a last name to search for: ";
 				cin >> term;
-				result = search(lastName, m, term);
+				result = search(lastName, n, term);
 				if (result == 1)
 					cout << term << " is not on the list.\n";
 				else
 					cout << term << " is stored in array position "
 					<< result << endl
-					<< "(Remember: The first position is 0.)\n";
-				cout << "Search again?(y/n followed by Return): ";
+					<< "(Remember: The first position is 0.)\n"
+					<< "The player info is: \nName: " << firstName[result] << " " <<
+					lastName[result] << " Age: " << Age[result] << " Phone: " << Phone[result]
+					<< " Years Played: " << YearsPlayed[result] << " Goals Per Year: " << GoalsPYear[result]
+					<< " Skill Level: " << Skill[result] << endl;
+					cout << "Search again?(y/n followed by Return): ";
 				cin >> ans;
 			} while ((ans != 'n') && (ans != 'N'));
 			continue;
