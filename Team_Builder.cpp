@@ -3,8 +3,8 @@
 //Email Address: tsoakes@my.milligan.edu
 //Term Project
 //Description: This program helps organize players into teams using statistics.
-//Version Version 2.11b
-//Last Changed: 04/29/2020
+//Version Version 3
+//Last Changed: 05/06/2020
 
 #include <iostream>
 #include <string>
@@ -17,9 +17,20 @@ const int numberofteams = 2, PlayersPerTeam = 10, LEAGUEMAX = 20;//m is the maxi
 //string teams;
 int n;
 
+struct TeamInfo
+{
+	string teamname[numberofteams];
+	string coachName;
+};
+
 class playerinfo
 {
 public:
+	int search(string a[], int number_used, string term);
+	//Precondition: number_used is <= the declared size of a.
+	//Also, a[0] through a[number_used − 1] have values.
+	//Returns the first index such that a[index] == target,
+	//provided there is such an index; otherwise, returns −1. 
 
 	int skillRanker(double Skill[], int Rank[], int Size);
 	//Preconditions: Skill values are stored in Skill (double) and the rank is stored in Rank (0 first, 1 second, ...)
@@ -34,6 +45,7 @@ public:
 	double GPY[LEAGUEMAX];
 	double Skill[LEAGUEMAX];
 	int Rank[LEAGUEMAX];
+
 };
 
 void listPrint(string fnames[], string lnames[], string phone[], int age[], int years[], double gpy[], double calcskill[], int arraysize);
@@ -47,11 +59,7 @@ double calcSkill (int PlayerYearVal, double GPYVal);
 //goalsscored to a double. It will output a double to be used as the skill player metric 
 //to be ranked with as a double.
 
-int search(string a[], int number_used, string term);
-//Precondition: number_used is <= the declared size of a.
-//Also, a[0] through a[number_used − 1] have values.
-//Returns the first index such that a[index] == target,
-//provided there is such an index; otherwise, returns −1. 
+
 
 int main()
 {
@@ -243,7 +251,7 @@ int main()
 			{
 				cout << "Enter a last name to search for: ";
 				cin >> term;
-				result = search(Player.lname, n, term);
+				result = Player.search(Player.lname, n, term);
 				if (result == 1)
 					cout << term << " is not on the list.\n";
 				else
@@ -294,7 +302,7 @@ void listPrint(string fnames[], string lnames[], string phone[], int age[], int 
 	return;
 }
 
-int search(string a[], int number_used, string term)
+int playerinfo::search(string a[], int number_used, string term)
 {
 	int q = 0;
 	bool found = false;
